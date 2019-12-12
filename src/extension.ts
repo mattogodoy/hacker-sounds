@@ -1,27 +1,116 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+'use strict';
 import * as vscode from 'vscode';
+import * as path from 'path';
+import player from './player';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+let listener: EditorListener;
+let extensionPos: number;
+let isActive: boolean;
+let isNotArrowKey: boolean;
+
 export function activate(context: vscode.ExtensionContext) {
+    console.log('Initializing "hacker-sounds" extension');
+    isActive = true;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "hacker-sounds" is now active!');
+    // to avoid multiple different instances
+    listener = listener || new EditorListener(player);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+    var extEnable = vscode.commands.registerCommand('extension.enable', () => {
+        isActive = true;
+    });
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
+    var extDisable = vscode.commands.registerCommand('extension.disable', () => {
+        isActive = false;
+    });
 
-	context.subscriptions.push(disposable);
+    // Add to a list of disposables which are disposed when this extension is deactivated.
+    context.subscriptions.push(extEnable);
+    context.subscriptions.push(extDisable);
+    context.subscriptions.push(listener);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+    isActive = false;
+}
+
+/**
+ * Listen to editor changes and play a sound when a key is pressed.
+ */
+export class EditorListener {
+    private _disposable: vscode.Disposable;
+    private _subscriptions: vscode.Disposable[] = [];
+    private _basePath: string = path.join(__dirname, '..');
+
+    // Audio files
+    private _spaceAudio: string = path.join(this._basePath, 'audio', 'spacebar.wav');
+    private _deleteAudio: string = path.join(this._basePath, 'audio', 'delete.wav');
+    private _otherKeysAudio: string = path.join(this._basePath, 'audio', 'key.wav');
+    private _cutAudio: string = path.join(this._basePath, 'audio', 'cut.wav');
+    private _pasteAudio: string = path.join(this._basePath, 'audio', 'paste.wav');
+    private _enterAudio: string = path.join(this._basePath, 'audio', 'enter.wav');
+    private _tabAudio: string = path.join(this._basePath, 'audio', 'tab.wav');
+    private _arrowsAudio: string = path.join(this._basePath, 'audio', 'arrow.wav');
+
+    constructor(private player: any) {
+        isNotArrowKey = false;
+
+        vscode.workspace.onDidChangeTextDocument(this._keystrokeCallback, this, this._subscriptions);
+        vscode.window.onDidChangeTextEditorSelection(this._arrowKeysCallback, this, this._subscriptions);
+        this._disposable = vscode.Disposable.from(...this._subscriptions);
+    }
+
+    _keystrokeCallback(e: any) {
+        if (!isActive){ return; }
+
+        isNotArrowKey = true;
+        let pressedKey = e.contentChanges[0].text;
+
+        if (pressedKey === "") {
+            if(e.contentChanges[0].rangeLength === 1){
+                // backspace delete pressed
+                player.play(this._deleteAudio);
+            } else {
+                // text cutted
+                this.player.play(this._cutAudio);
+            }
+        } else if (pressedKey === " ") {
+            // space pressed
+            this.player.play(this._spaceAudio);
+        } else if (pressedKey === "\n") {
+            // space pressed
+            this.player.play(this._enterAudio);
+        } else if (pressedKey === "    " || pressedKey === "\t") {
+            // space pressed
+            this.player.play(this._tabAudio);
+        } else {
+            if(pressedKey.length === 1){
+                // any other key pressed
+                this.player.play(this._otherKeysAudio);
+            } else {
+                // text pasted
+                this.player.play(this._pasteAudio);
+            }
+        }
+    }
+
+    _arrowKeysCallback(e: any){
+        if (!isActive){ return; }
+
+        // current editor
+        const editor = vscode.window.activeTextEditor;
+
+        // check if there is no selection
+        if (editor && editor.selection.isEmpty && isNotArrowKey === false) {
+            player.play(this._arrowsAudio);
+        } else {
+            isNotArrowKey = false;
+        }
+    }
+
+    dispose() {
+        this._disposable.dispose();
+    }
+}
