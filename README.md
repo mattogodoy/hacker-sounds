@@ -1,6 +1,17 @@
 # hacker-sounds
 
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/mattogodoy.hacker-sounds.svg)](https://marketplace.visualstudio.com/items?itemName=mattogodoy.hacker-sounds)
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/d/mattogodoy.hacker-sounds.svg)](https://marketplace.visualstudio.com/items?itemName=mattogodoy.hacker-sounds)
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/r/mattogodoy.hacker-sounds.svg)](https://marketplace.visualstudio.com/items?itemName=mattogodoy.hacker-sounds)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/jengjeng/aural-coding-vscode/blob/master/LICENSE)
+
 This Visual Studio Code extension automatically turns you into a very skilled hacker by playing movie-like sounds while you write code.
+
+## Installation
+
+Run `code --install-extension mattogodoy.hacker-sounds`
+
+or search [Hacker Sounds](https://marketplace.visualstudio.com/items?itemName=mattogodoy.hacker-sounds) in Extensions Marketplace.
 
 ## How to use
 
