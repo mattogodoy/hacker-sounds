@@ -30,6 +30,10 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.0.2
+
+Added fix for Windows. It's working now 🎉
+
 ### 1.0.1
 
 Updated README information.
