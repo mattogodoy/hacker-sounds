@@ -31,11 +31,11 @@
     "contributes": {
         "commands": [
             {
-                "command": "extension.enable",
+                "command": "hacker_sounds.enable",
                 "title": "Hacker Sounds: Enable"
             },
             {
-                "command": "extension.disable",
+                "command": "hacker_sounds.disable",
                 "title": "Hacker Sounds: Disable"
             }
         ]

@@ -12,29 +12,38 @@ let isNotArrowKey: boolean;
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Initializing "hacker-sounds" extension');
-    isActive = true;
+
+    // is the extension activated? yes by default.
+    isActive = context.globalState.get('hacker_sounds', true);
 
     // to avoid multiple different instances
     listener = listener || new EditorListener(player);
 
-    var extEnable = vscode.commands.registerCommand('extension.enable', () => {
-        isActive = true;
+    vscode.commands.registerCommand('hacker_sounds.enable', () => {
+        if (!isActive) {
+            context.globalState.update('hacker_sounds', true);
+            isActive = true;
+            vscode.window.showInformationMessage('Hacker Sounds extension enabled');
+        } else {
+            vscode.window.showWarningMessage('Hacker Sounds extension is already enabled');
+        }
     });
-
-    var extDisable = vscode.commands.registerCommand('extension.disable', () => {
-        isActive = false;
+    vscode.commands.registerCommand('hacker_sounds.disable', () => {
+        if (isActive) {
+            context.globalState.update('hacker_sounds', false);
+            isActive = false;
+            vscode.window.showInformationMessage('Hacker Sounds extension disabled');
+        } else {
+            vscode.window.showWarningMessage('Hacker Sounds extension is already disabled');
+        }
     });
 
     // Add to a list of disposables which are disposed when this extension is deactivated.
-    context.subscriptions.push(extEnable);
-    context.subscriptions.push(extDisable);
     context.subscriptions.push(listener);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {
-    isActive = false;
-}
+export function deactivate() {}
 
 /**
  * Listen to editor changes and play a sound when a key is pressed.
