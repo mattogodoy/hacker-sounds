@@ -30,6 +30,10 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.0.1
+
+Updated README information.
+
 ### 1.0.0
 
 Initial release. Working on macOS.
