@@ -3,7 +3,7 @@ const path = require('path');
 const player = require('play-sound')();
 
 const _isWindows = process.platform === 'win32';
-const _playerWindowsPath = path.join(__dirname, '..', '..', 'audio', 'play.exe');
+const _playerWindowsPath = path.join(__dirname, '..', 'audio', 'play.exe');
 
 export default {
     play(filePath: string) : Promise<void> {
