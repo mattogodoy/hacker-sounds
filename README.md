@@ -30,6 +30,10 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.0.3
+
+Fixed issue [#1](https://github.com/mattogodoy/hacker-sounds/issues/1)
+
 ### 1.0.2
 
 Added fix for Windows. It's working now 🎉
