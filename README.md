@@ -22,7 +22,7 @@ Hacker Sounds will start immediately when Visual Studio Code is started. However
 
 ## Known Issues & Bugs
 
-The extension is in a very early stage. It still has not been tested in Windows and the sounds could be greatly improved.
+The extension is in a very early stage. Please report any issues / bugs you find.
 
 ## Contributing
 
