@@ -78,31 +78,54 @@ export class EditorListener {
         isNotArrowKey = true;
         let pressedKey = e.contentChanges[0].text;
 
-        if (pressedKey === "") {
-            if(e.contentChanges[0].rangeLength === 1){
-                // backspace delete pressed
-                player.play(this._deleteAudio);
-            } else {
-                // text cutted
-                this.player.play(this._cutAudio);
-            }
-        } else if (pressedKey === " ") {
-            // space pressed
-            this.player.play(this._spaceAudio);
-        } else if (pressedKey === "\n") {
-            // space pressed
-            this.player.play(this._enterAudio);
-        } else if (pressedKey === "    " || pressedKey === "\t") {
-            // space pressed
-            this.player.play(this._tabAudio);
-        } else {
-            if(pressedKey.length === 1){
-                // any other key pressed
-                this.player.play(this._otherKeysAudio);
-            } else {
-                // text pasted
-                this.player.play(this._pasteAudio);
-            }
+        switch (pressedKey) {
+            case '':
+                if(e.contentChanges[0].rangeLength === 1){
+                    // backspace or delete pressed
+                    player.play(this._deleteAudio);
+                } else {
+                    // text cut
+                    this.player.play(this._cutAudio);
+                }
+                break;
+
+            case ' ':
+                // space bar pressed
+                this.player.play(this._spaceAudio);
+                break;
+
+            case '\n':
+                // enter pressed
+                this.player.play(this._enterAudio);
+                break;
+
+            case '\t':
+            case '  ':
+            case '    ':
+                // tab pressed
+                this.player.play(this._tabAudio);
+                break;
+
+            default:
+                let textLength = pressedKey.trim().length;
+
+                switch (textLength) {
+                    case 0:
+                        // user hit Enter while indented
+                        this.player.play(this._enterAudio);
+                        break;
+
+                    case 1:
+                        // it's a regular character
+                        this.player.play(this._otherKeysAudio);
+                        break;
+
+                    default:
+                        // text pasted
+                        this.player.play(this._pasteAudio);
+                        break;
+                }
+                break;
         }
     }
 

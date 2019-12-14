@@ -30,6 +30,11 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.1.0
+
+- Refactored part of the code
+- New and better sounds
+
 ### 1.0.3
 
 Fixed issue [#1](https://github.com/mattogodoy/hacker-sounds/issues/1)
