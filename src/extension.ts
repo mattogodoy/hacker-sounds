@@ -73,7 +73,7 @@ export class EditorListener {
 
     _keystrokeCallback(e: any) {
         if (!isActive){ return; }
-        if (!e || !e.contentChanges){ return; }
+        if (!e || !Array.isArray(e.contentChanges) || e.contentChanges.length === 0){ return; }
 
         isNotArrowKey = true;
         let pressedKey = e.contentChanges[0].text;
