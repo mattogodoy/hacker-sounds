@@ -30,6 +30,11 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.1.1
+
+- Merged Pull Request [#2](https://github.com/mattogodoy/hacker-sounds/pull/2)
+Thanks, [tiansin](https://github.com/tiansin)!
+
 ### 1.1.0
 
 - Refactored part of the code
