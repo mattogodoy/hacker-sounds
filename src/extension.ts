@@ -71,16 +71,18 @@ export class EditorListener {
         this._disposable = vscode.Disposable.from(...this._subscriptions);
     }
 
-    _keystrokeCallback(e: any) {
+    _keystrokeCallback(event: vscode.TextDocumentChangeEvent) {
         if (!isActive){ return; }
-        if (!e || !Array.isArray(e.contentChanges) || e.contentChanges.length === 0){ return; }
 
+        let activeDocument = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
+        if (event.document !== activeDocument || event.contentChanges.length === 0) { return; }
+ 
         isNotArrowKey = true;
-        let pressedKey = e.contentChanges[0].text;
+        let pressedKey = event.contentChanges[0].text;
 
         switch (pressedKey) {
             case '':
-                if(e.contentChanges[0].rangeLength === 1){
+                if(event.contentChanges[0].rangeLength === 1){
                     // backspace or delete pressed
                     player.play(this._deleteAudio);
                 } else {
@@ -129,14 +131,15 @@ export class EditorListener {
         }
     }
 
-    _arrowKeysCallback(e: any){
+    _arrowKeysCallback(event: vscode.TextEditorSelectionChangeEvent){
         if (!isActive){ return; }
 
         // current editor
         const editor = vscode.window.activeTextEditor;
+        if (!editor || editor.document !== event.textEditor.document) { return; }
 
         // check if there is no selection
-        if (editor && editor.selection.isEmpty && isNotArrowKey === false) {
+        if (editor.selection.isEmpty && isNotArrowKey === false) {
             player.play(this._arrowsAudio);
         } else {
             isNotArrowKey = false;
