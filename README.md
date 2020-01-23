@@ -30,6 +30,13 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.2.0
+
+- Sounds improved in volume level and quality.
+Thanks, [exoticus](https://github.com/exoticus)!
+- Merged Pull Request [#3](https://github.com/mattogodoy/hacker-sounds/pull/3)
+Thanks, [tiansin](https://github.com/tiansin)!
+
 ### 1.1.1
 
 - Merged Pull Request [#2](https://github.com/mattogodoy/hacker-sounds/pull/2)
