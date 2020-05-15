@@ -3,6 +3,7 @@
 'use strict';
 import * as vscode from 'vscode';
 import * as path from 'path';
+import debounce from 'lodash.debounce';
 import player from './player';
 
 let listener: EditorListener;
@@ -71,7 +72,7 @@ export class EditorListener {
         this._disposable = vscode.Disposable.from(...this._subscriptions);
     }
 
-    _keystrokeCallback(event: vscode.TextDocumentChangeEvent) {
+    _keystrokeCallback = debounce((event: vscode.TextDocumentChangeEvent) => {
         if (!isActive){ return; }
 
         let activeDocument = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
@@ -84,7 +85,7 @@ export class EditorListener {
             case '':
                 if(event.contentChanges[0].rangeLength === 1){
                     // backspace or delete pressed
-                    player.play(this._deleteAudio);
+                    this.player.play(this._deleteAudio);
                 } else {
                     // text cut
                     this.player.play(this._cutAudio);
@@ -129,9 +130,9 @@ export class EditorListener {
                 }
                 break;
         }
-    }
+    }, 100, { leading: true });
 
-    _arrowKeysCallback(event: vscode.TextEditorSelectionChangeEvent){
+    _arrowKeysCallback = debounce((event: vscode.TextEditorSelectionChangeEvent) => {
         if (!isActive){ return; }
 
         // current editor
@@ -140,11 +141,11 @@ export class EditorListener {
 
         // check if there is no selection
         if (editor.selection.isEmpty && isNotArrowKey === false) {
-            player.play(this._arrowsAudio);
+            this.player.play(this._arrowsAudio);
         } else {
             isNotArrowKey = false;
         }
-    }
+    }, 100, { leading: true });
 
     dispose() {
         this._disposable.dispose();
