@@ -4,18 +4,21 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import debounce from 'lodash.debounce';
-import player from './player';
+import player, { PlayerConfig } from './player';
 
 let listener: EditorListener;
-let extensionPos: number;
 let isActive: boolean;
 let isNotArrowKey: boolean;
+let config: PlayerConfig = {
+    vol: 1
+};
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Initializing "hacker-sounds" extension');
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('hacker_sounds', true);
+    config.vol = context.globalState.get('volume', 1);
 
     // to avoid multiple different instances
     listener = listener || new EditorListener(player);
@@ -36,6 +39,20 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage('Hacker Sounds extension disabled');
         } else {
             vscode.window.showWarningMessage('Hacker Sounds extension is already disabled');
+        }
+    });
+    vscode.commands.registerCommand('hacker_sounds.volumeUp', () => {
+        context.globalState.update('volume', config.vol + 1);
+        config.vol += 1;
+        vscode.window.showInformationMessage('Hacker Sounds Volume Rasied: ' + config.vol);
+    });
+    vscode.commands.registerCommand('hacker_sounds.volumeDown', () => {
+        if (config.vol < 1) {
+            vscode.window.showWarningMessage('Hacker Sounds volume cannot be negative!');
+        } else {
+            context.globalState.update('volume', config.vol - 1);
+            config.vol -= 1;
+            vscode.window.showInformationMessage('Hacker Sounds volume reduced: ' + config.vol);
         }
     });
 
@@ -70,6 +87,9 @@ export class EditorListener {
         vscode.workspace.onDidChangeTextDocument(this._keystrokeCallback, this, this._subscriptions);
         vscode.window.onDidChangeTextEditorSelection(this._arrowKeysCallback, this, this._subscriptions);
         this._disposable = vscode.Disposable.from(...this._subscriptions);
+        this.player = {
+            play: (filePath: string) => player.play(filePath, config)
+        };
     }
 
     _keystrokeCallback = debounce((event: vscode.TextDocumentChangeEvent) => {

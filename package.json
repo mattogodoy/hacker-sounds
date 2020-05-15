@@ -37,6 +37,14 @@
             {
                 "command": "hacker_sounds.disable",
                 "title": "Hacker Sounds: Disable"
+            },
+            {
+                "command": "hacker_sounds.volumeUp",
+                "title": "Hacker Sounds: Volume Up"
+            },
+            {
+                "command": "hacker_sounds.volumeDown",
+                "title": "Hacker Sounds: Volume Down"
             }
         ]
     },
