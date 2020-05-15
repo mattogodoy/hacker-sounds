@@ -3,8 +3,8 @@
 'use strict';
 import * as vscode from 'vscode';
 import * as path from 'path';
-import debounce from 'lodash.debounce';
 import player, { PlayerConfig } from './player';
+import debounce = require('lodash.debounce');
 
 let listener: EditorListener;
 let isActive: boolean;
