@@ -3,18 +3,22 @@
 'use strict';
 import * as vscode from 'vscode';
 import * as path from 'path';
-import player from './player';
+import player, { PlayerConfig } from './player';
+import debounce = require('lodash.debounce');
 
 let listener: EditorListener;
-let extensionPos: number;
 let isActive: boolean;
 let isNotArrowKey: boolean;
+let config: PlayerConfig = {
+    vol: 1
+};
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Initializing "hacker-sounds" extension');
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('hacker_sounds', true);
+    config.vol = context.globalState.get('volume', 1);
 
     // to avoid multiple different instances
     listener = listener || new EditorListener(player);
@@ -35,6 +39,20 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage('Hacker Sounds extension disabled');
         } else {
             vscode.window.showWarningMessage('Hacker Sounds extension is already disabled');
+        }
+    });
+    vscode.commands.registerCommand('hacker_sounds.volumeUp', () => {
+        context.globalState.update('volume', config.vol + 1);
+        config.vol += 1;
+        vscode.window.showInformationMessage('Hacker Sounds Volume Rasied: ' + config.vol);
+    });
+    vscode.commands.registerCommand('hacker_sounds.volumeDown', () => {
+        if (config.vol < 1) {
+            vscode.window.showWarningMessage('Hacker Sounds volume cannot be negative!');
+        } else {
+            context.globalState.update('volume', config.vol - 1);
+            config.vol -= 1;
+            vscode.window.showInformationMessage('Hacker Sounds volume reduced: ' + config.vol);
         }
     });
 
@@ -69,9 +87,12 @@ export class EditorListener {
         vscode.workspace.onDidChangeTextDocument(this._keystrokeCallback, this, this._subscriptions);
         vscode.window.onDidChangeTextEditorSelection(this._arrowKeysCallback, this, this._subscriptions);
         this._disposable = vscode.Disposable.from(...this._subscriptions);
+        this.player = {
+            play: (filePath: string) => player.play(filePath, config)
+        };
     }
 
-    _keystrokeCallback(event: vscode.TextDocumentChangeEvent) {
+    _keystrokeCallback = debounce((event: vscode.TextDocumentChangeEvent) => {
         if (!isActive){ return; }
 
         let activeDocument = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
@@ -84,7 +105,7 @@ export class EditorListener {
             case '':
                 if(event.contentChanges[0].rangeLength === 1){
                     // backspace or delete pressed
-                    player.play(this._deleteAudio);
+                    this.player.play(this._deleteAudio);
                 } else {
                     // text cut
                     this.player.play(this._cutAudio);
@@ -129,9 +150,9 @@ export class EditorListener {
                 }
                 break;
         }
-    }
+    }, 100, { leading: true });
 
-    _arrowKeysCallback(event: vscode.TextEditorSelectionChangeEvent){
+    _arrowKeysCallback = debounce((event: vscode.TextEditorSelectionChangeEvent) => {
         if (!isActive){ return; }
 
         // current editor
@@ -140,11 +161,11 @@ export class EditorListener {
 
         // check if there is no selection
         if (editor.selection.isEmpty && isNotArrowKey === false) {
-            player.play(this._arrowsAudio);
+            this.player.play(this._arrowsAudio);
         } else {
             isNotArrowKey = false;
         }
-    }
+    }, 100, { leading: true });
 
     dispose() {
         this._disposable.dispose();
