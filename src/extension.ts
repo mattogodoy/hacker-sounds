@@ -10,7 +10,9 @@ let listener: EditorListener;
 let isActive: boolean;
 let isNotArrowKey: boolean;
 let config: PlayerConfig = {
-    vol: 1
+    macVol: 1,
+    winVol: 100,
+    linuxVol: 100
 };
 
 export function activate(context: vscode.ExtensionContext) {
@@ -18,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('hacker_sounds', true);
-    config.vol = context.globalState.get('volume', 1);
+    config.winVol = context.globalState.get('win_volume', 1);
 
     // to avoid multiple different instances
     listener = listener || new EditorListener(player);
@@ -42,17 +44,25 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
     vscode.commands.registerCommand('hacker_sounds.volumeUp', () => {
-        context.globalState.update('volume', config.vol + 1);
-        config.vol += 1;
-        vscode.window.showInformationMessage('Hacker Sounds Volume Rasied: ' + config.vol);
+        config.macVol += 1;
+        config.winVol += 10;
+        config.linuxVol += 10;
+        context.globalState.update('mac_volume', config.macVol);
+        context.globalState.update('win_volume', config.winVol);
+        context.globalState.update('linux_volume', config.linuxVol);
+        vscode.window.showInformationMessage('Hacker Sounds volume raised');
     });
     vscode.commands.registerCommand('hacker_sounds.volumeDown', () => {
-        if (config.vol < 1) {
-            vscode.window.showWarningMessage('Hacker Sounds volume cannot be negative!');
+        if (config.macVol <= 1) {
+            vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
         } else {
-            context.globalState.update('volume', config.vol - 1);
-            config.vol -= 1;
-            vscode.window.showInformationMessage('Hacker Sounds volume reduced: ' + config.vol);
+            config.macVol -= 1;
+            config.winVol -= 10;
+            config.linuxVol -= 10;
+            context.globalState.update('mac_volume', config.macVol);
+            context.globalState.update('win_volume', config.winVol);
+            context.globalState.update('linux_volume', config.linuxVol);
+            vscode.window.showInformationMessage('Hacker Sounds volume lowered');
         }
     });
 
@@ -97,7 +107,7 @@ export class EditorListener {
 
         let activeDocument = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
         if (event.document !== activeDocument || event.contentChanges.length === 0) { return; }
- 
+
         isNotArrowKey = true;
         let pressedKey = event.contentChanges[0].text;
 

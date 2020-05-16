@@ -3,24 +3,26 @@ const path = require('path');
 const player = require('play-sound')();
 
 const _isWindows = process.platform === 'win32';
-const _playerWindowsPath = path.join(__dirname, '..', 'audio', 'play.exe');
+const _playerWindowsPath = path.join(__dirname, '..', 'audio', 'sounder.exe');
 
 export interface PlayerConfig {
     /**
      * Specify volume of the sounds
      */
-    vol: number;
+    macVol: number;
+    winVol: number;
+    linuxVol: number;
 }
 
 const playerAdapter = (opts: PlayerConfig) => ({
-    afplay: ['-v', opts.vol],
+    afplay: ['-v', opts.macVol],
 });
 
 export default {
     play(filePath: string, config: PlayerConfig) : Promise<void> {
         return new Promise ((resolve, reject) => {
             if (_isWindows) {
-                cp.execFile(_playerWindowsPath, [filePath]);
+                cp.execFile(_playerWindowsPath, ['/vol', config.winVol, filePath]);
                 resolve();
             } else {
                 player.play(filePath, playerAdapter(config), (err: any) => {

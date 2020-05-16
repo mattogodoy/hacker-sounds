@@ -15,10 +15,21 @@ or search [Hacker Sounds](https://marketplace.visualstudio.com/items?itemName=ma
 
 ## How to use
 
-Hacker Sounds will start immediately when Visual Studio Code is started. However, you can enable and disable the extension by executing these commands in the Command Palette (Cmd+Shift+P).
+### Enable / Disable
+
+Hacker Sounds will start immediately when Visual Studio Code is started. However, you can enable and disable the extension by executing these commands in the Command Palette (Cmd+Shift+P):
 
 - `Hacker Sounds: Enable`
 - `Hacker Sounds: Disable`
+
+### Volume control
+
+You can adjust the volume of the sounds by executing these commands in the Command Palette (Cmd+Shift+P):
+
+- `Hacker Sounds: Volume Up`
+- `Hacker Sounds: Volume Down`
+
+**NOTE:** The volume adjustments only apply to this extension's sounds. It does not affect the system volume.
 
 ## Known Issues & Bugs
 
@@ -30,17 +41,28 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.3.0
+
+- Merged Pull Request [#5](https://github.com/mattogodoy/hacker-sounds/pull/5)
+    - Now you can adjust volume levels for Mac
+    - Thanks, [Jory Liang](https://github.com/liangzr)!
+- Replaced [sWavPlayer](https://www.dcmembers.com/skwire/download/swavplayer/) for [sounder](https://www.elifulkerson.com/projects/commandline-wav-player.php) as the Windows sound player with the following benefits:
+    - Much smaller in size (sounder is 33 KB and sWavPlayer was 878 KB)
+    - Performance in Windows is greatly improved
+    - Sounder allows to set the volume, so now you can adjust volume levels in Windows
+- Updated dependencies
+
 ### 1.2.0
 
 - Sounds improved in volume level and quality.
-Thanks, [exoticus](https://github.com/exoticus)!
+    - Thanks, [exoticus](https://github.com/exoticus)!
 - Merged Pull Request [#3](https://github.com/mattogodoy/hacker-sounds/pull/3)
-Thanks, [tiansin](https://github.com/tiansin)!
+    - Thanks, [tiansin](https://github.com/tiansin)!
 
 ### 1.1.1
 
 - Merged Pull Request [#2](https://github.com/mattogodoy/hacker-sounds/pull/2)
-Thanks, [tiansin](https://github.com/tiansin)!
+    - Thanks, [tiansin](https://github.com/tiansin)!
 
 ### 1.1.0
 
@@ -62,6 +84,12 @@ Updated README information.
 ### 1.0.0
 
 Initial release. Working on macOS.
+
+
+## Credits
+
+For Windows, this extension uses the `sounder` light-weight player:
+https://www.elifulkerson.com/projects/commandline-wav-player.php
 
 -----------------------------------------------------------------------------------------------------------
 
