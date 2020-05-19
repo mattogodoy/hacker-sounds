@@ -90,7 +90,7 @@ export function activate(context: vscode.ExtensionContext) {
                 break;
         }
 
-        vscode.window.showInformationMessage('Hacker Sounds volume lowered: ' + newVol);
+        vscode.window.showInformationMessage('Hacker Sounds volume raised: ' + newVol);
     });
     vscode.commands.registerCommand('hacker_sounds.volumeDown', () => {
         let newVol = null;
