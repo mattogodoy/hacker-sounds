@@ -20,7 +20,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('hacker_sounds', true);
-    config.winVol = context.globalState.get('win_volume', 1);
+    config.macVol = context.globalState.get('mac_volume', 1);
+    config.winVol = context.globalState.get('win_volume', 100);
+    config.linuxVol = context.globalState.get('linux_volume', 1);
 
     // to avoid multiple different instances
     listener = listener || new EditorListener(player);
@@ -44,26 +46,98 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
     vscode.commands.registerCommand('hacker_sounds.volumeUp', () => {
-        config.macVol += 1;
-        config.winVol += 10;
-        config.linuxVol += 10;
-        context.globalState.update('mac_volume', config.macVol);
-        context.globalState.update('win_volume', config.winVol);
-        context.globalState.update('linux_volume', config.linuxVol);
-        vscode.window.showInformationMessage('Hacker Sounds volume raised');
+        let newVol = null;
+
+        switch (process.platform) {
+            case 'darwin':
+                config.macVol += 1;
+
+                if(config.macVol > 10){
+                    vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
+                    config.macVol = 10;
+                }
+
+                newVol = config.macVol;
+                context.globalState.update('mac_volume', newVol);
+                break;
+
+            case 'win32':
+                config.winVol += 10;
+
+                if(config.winVol > 100){
+                    vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
+                    config.winVol = 100;
+                }
+
+                newVol = config.winVol;
+                context.globalState.update('win_volume', newVol);
+                break;
+
+            case 'linux':
+                config.linuxVol += 1;
+
+                if(config.linuxVol > 10){
+                    vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
+                    config.linuxVol = 10;
+                }
+
+                newVol = config.linuxVol;
+                context.globalState.update('linux_volume', newVol);
+                break;
+
+            default:
+                newVol = 0;
+                break;
+        }
+
+        vscode.window.showInformationMessage('Hacker Sounds volume lowered: ' + newVol);
     });
     vscode.commands.registerCommand('hacker_sounds.volumeDown', () => {
-        if (config.macVol <= 1) {
-            vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
-        } else {
-            config.macVol -= 1;
-            config.winVol -= 10;
-            config.linuxVol -= 10;
-            context.globalState.update('mac_volume', config.macVol);
-            context.globalState.update('win_volume', config.winVol);
-            context.globalState.update('linux_volume', config.linuxVol);
-            vscode.window.showInformationMessage('Hacker Sounds volume lowered');
+        let newVol = null;
+
+        switch (process.platform) {
+            case 'darwin':
+                config.macVol -= 1;
+
+                if(config.macVol < 1){
+                    vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
+                    config.macVol = 1;
+                }
+
+                newVol = config.macVol;
+                context.globalState.update('mac_volume', newVol);
+                break;
+
+            case 'win32':
+                config.winVol -= 10;
+
+                if(config.winVol < 10){
+                    vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
+                    config.winVol = 10;
+                }
+
+                newVol = config.winVol;
+                context.globalState.update('win_volume', newVol);
+                break;
+
+            case 'linux':
+                config.linuxVol -= 1;
+
+                if(config.linuxVol < 1){
+                    vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
+                    config.linuxVol = 1;
+                }
+
+                newVol = config.linuxVol;
+                context.globalState.update('linux_volume', newVol);
+                break;
+
+            default:
+                newVol = 0;
+                break;
         }
+
+        vscode.window.showInformationMessage('Hacker Sounds volume lowered: ' + newVol);
     });
 
     // Add to a list of disposables which are disposed when this extension is deactivated.

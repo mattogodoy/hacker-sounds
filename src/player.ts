@@ -16,6 +16,7 @@ export interface PlayerConfig {
 
 const playerAdapter = (opts: PlayerConfig) => ({
     afplay: ['-v', opts.macVol],
+    mplayer: ['-af', `volume=${opts.linuxVol}`],
 });
 
 export default {

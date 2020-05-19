@@ -43,13 +43,13 @@ Any pull request is welcome.
 
 ### 1.3.0
 
+- Now you can adjust volume levels for Mac, Windows and Linux. This feature has not been tested in Linux yet.
 - Merged Pull Request [#5](https://github.com/mattogodoy/hacker-sounds/pull/5)
-    - Now you can adjust volume levels for Mac
     - Thanks, [Jory Liang](https://github.com/liangzr)!
 - Replaced [sWavPlayer](https://www.dcmembers.com/skwire/download/swavplayer/) for [sounder](https://www.elifulkerson.com/projects/commandline-wav-player.php) as the Windows sound player with the following benefits:
     - Much smaller in size (sounder is 33 KB and sWavPlayer was 878 KB)
     - Performance in Windows is greatly improved
-    - Sounder allows to set the volume, so now you can adjust volume levels in Windows
+    - Allows to set the volume
 - Updated dependencies
 
 ### 1.2.0
