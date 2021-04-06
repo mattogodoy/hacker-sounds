@@ -7,7 +7,9 @@
 
 This Visual Studio Code extension automatically turns you into a very skilled hacker by playing movie-like sounds while you write code.
 
-## Requirements (Linux)
+## Requirements
+
+### Linux
 
 On Linux, you will need to have mplayer installed and on your PATH to get this extension working.
 
@@ -25,6 +27,11 @@ sudo dnf install mplayer
 ```bash
 sudo pacman -S mplayer
 ```
+
+### Windows and Mac
+
+No special requirements.
+
 
 ## Installation
 
