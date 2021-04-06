@@ -7,6 +7,25 @@
 
 This Visual Studio Code extension automatically turns you into a very skilled hacker by playing movie-like sounds while you write code.
 
+## Requirements (Linux)
+
+On Linux, you will need to have mplayer installed and on your PATH to get this extension working.
+
+**Debian based**
+```bash
+sudo apt-get install mplayer
+```
+
+**Red Hat based**
+```bash
+sudo dnf install mplayer
+```
+
+**Arch based**
+```bash
+sudo pacman -S mplayer
+```
+
 ## Installation
 
 Run `code --install-extension mattogodoy.hacker-sounds`
