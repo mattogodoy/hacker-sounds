@@ -167,11 +167,11 @@ export function activate(context: vscode.ExtensionContext) {
 
             case 'win32':
                 if(newVol > 100) {
-                    vscode.window.showInformationMessage("Volume has been changed to 100 which is the maximum volume")
+                    vscode.window.showInformationMessage("Volume has been increased to 100 which is the maximum volume")
                     config.winVol = 100;
                 } 
                 else if(newVol < 10) {
-                    vscode.window.showInformationMessage("Volume has been changed to 10 which is the minimum volume")
+                    vscode.window.showInformationMessage("Volume has been decreased to 10 which is the minimum volume")
                     config.winVol = 10
                 } else {
                     if(config.winVol < newVol)
@@ -188,11 +188,11 @@ export function activate(context: vscode.ExtensionContext) {
 
             case 'linux':
                 if(newVol > 10) {
-                    vscode.window.showInformationMessage("Volume has been changed to 10 which is the maximum volume")
+                    vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
                     config.linuxVol = 10;
                 }
                 else if(newVol < 1) {
-                    vscode.window.showInformationMessage("Volume has been changed to 1 which is the minimum volume")
+                    vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
                     config.linuxVol = 1
                 } else {
                     if(config.linuxVol < newVol)
