@@ -146,14 +146,19 @@ export function activate(context: vscode.ExtensionContext) {
         switch (process.platform) {
             case 'darwin':
                     if(newVol > 10) {
-                        vscode.window.showInformationMessage("Volume has been changed to 10 which is the maximum volume")
+                        vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
                         config.macVol = 10;
                     } 
                     else if(newVol < 10) {
-                        vscode.window.showInformationMessage("Volume has been changed to 1 which is the minimum volume")
+                        vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
                         config.macVol = 1
                     } else {
-                        vscode.window.showInformationMessage("Volume has been changed to " + newVol)
+                        if(config.macVol < newVol)
+                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        else if(config.macVol > newVol)
+                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        else
+                        vscode.window.showWarningMessage("Volume is always at " + newVol);
                         config.macVol = newVol;
                     }
 
@@ -169,7 +174,12 @@ export function activate(context: vscode.ExtensionContext) {
                     vscode.window.showInformationMessage("Volume has been changed to 10 which is the minimum volume")
                     config.winVol = 10
                 } else {
-                    vscode.window.showInformationMessage("Volume has been changed to " + newVol)
+                    if(config.winVol < newVol)
+                    vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                    else if(config.winVol > newVol)
+                    vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                    else
+                    vscode.window.showWarningMessage("Volume is always at " + newVol);
                     config.winVol = newVol;
                 }
 
@@ -179,14 +189,19 @@ export function activate(context: vscode.ExtensionContext) {
             case 'linux':
                 if(newVol > 10) {
                     vscode.window.showInformationMessage("Volume has been changed to 10 which is the maximum volume")
-                    config.winVol = 10;
+                    config.linuxVol = 10;
                 }
                 else if(newVol < 1) {
                     vscode.window.showInformationMessage("Volume has been changed to 1 which is the minimum volume")
-                    config.winVol = 1
+                    config.linuxVol = 1
                 } else {
-                    vscode.window.showInformationMessage("Volume has been changed to " + newVol)
-                    config.winVol = newVol;
+                    if(config.linuxVol < newVol)
+                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        else if(config.linuxVol > newVol)
+                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        else
+                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        config.linuxVol = newVol;
                 }
 
             context.globalState.update('linux_volume', newVol);
