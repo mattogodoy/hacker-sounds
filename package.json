@@ -70,9 +70,11 @@
         "mocha": "^6.2.2",
         "tslint": "^5.20.0",
         "typescript": "^3.6.4",
-        "vscode-test": "^1.2.2"
+        "vscode-test": "^1.2.2",
+        "lodash": "^v4.17.21"
     },
     "dependencies": {
+        "lodash": "^v4.17.21",
         "lodash.debounce": "^4.0.8",
         "play-sound": "^1.1.3"
     }
