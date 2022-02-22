@@ -5,7 +5,7 @@
     "description": "This extension automatically turns you into a very skilled hacker by playing movie-like sounds while you write code.",
     "version": "1.4.0",
     "engines": {
-        "vscode": "^1.40.0"
+        "vscode": "^1.40.1"
     },
     "homepage": "https://matto.io",
     "repository": {
