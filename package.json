@@ -49,16 +49,16 @@
             {
                 "command": "hacker_sounds.setVolume",
                 "title": "Hacker Sounds: Set Volume",
-                "args" : "newVol"
+                "args": "newVol"
             }
         ]
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile",
-        "test": "node ./out/test/runTest.js"
+        "vscode:prepublish": "npm run -S esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run -S esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./"
     },
     "devDependencies": {
         "@types/glob": "^7.1.1",
@@ -66,15 +66,16 @@
         "@types/mocha": "^5.2.7",
         "@types/node": "^12.11.7",
         "@types/vscode": "^1.40.0",
+        "esbuild": "^0.14.23",
         "glob": "^7.1.5",
+        "lodash": "^4.17.21",
         "mocha": "^6.2.2",
         "tslint": "^5.20.0",
         "typescript": "^3.6.4",
-        "vscode-test": "^1.2.2",
-        "lodash": "^v4.17.21"
+        "vscode-test": "^1.2.2"
     },
     "dependencies": {
-        "lodash": "^v4.17.21",
+        "lodash": "^4.17.21",
         "lodash.debounce": "^4.0.8",
         "play-sound": "^1.1.3"
     }
