@@ -54,6 +54,7 @@ You can adjust the volume of the sounds by executing these commands in the Comma
 
 - `Hacker Sounds: Volume Up`
 - `Hacker Sounds: Volume Down`
+- `Hacker Sounds: Set Volume`
 
 **NOTE:** The volume adjustments only apply to this extension's sounds. It does not affect the system volume.
 

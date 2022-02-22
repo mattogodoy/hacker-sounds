@@ -45,6 +45,11 @@
             {
                 "command": "hacker_sounds.volumeDown",
                 "title": "Hacker Sounds: Volume Down"
+            },
+            {
+                "command": "hacker_sounds.setVolume",
+                "title": "Hacker Sounds: Set Volume",
+                "args" : "newVol"
             }
         ]
     },

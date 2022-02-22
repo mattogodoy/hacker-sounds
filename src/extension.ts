@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import player, { PlayerConfig } from './player';
 import debounce = require('lodash.debounce');
+import { toInteger } from 'lodash';
 
 let listener: EditorListener;
 let isActive: boolean;
@@ -47,7 +48,6 @@ export function activate(context: vscode.ExtensionContext) {
     });
     vscode.commands.registerCommand('hacker_sounds.volumeUp', () => {
         let newVol = null;
-
         switch (process.platform) {
             case 'darwin':
                 config.macVol += 1;
@@ -140,6 +140,80 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('Hacker Sounds volume lowered: ' + newVol);
     });
 
+    vscode.commands.registerCommand('hacker_sounds.setVolume', async () => {
+        let input = await vscode.window.showInputBox()
+        let newVol = toInteger(input);
+        switch (process.platform) {
+            case 'darwin':
+                    if(newVol > 10) {
+                        vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
+                        config.macVol = 10;
+                    } 
+                    else if(newVol < 10) {
+                        vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
+                        config.macVol = 1
+                    } else {
+                        if(config.macVol < newVol)
+                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        else if(config.macVol > newVol)
+                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        else
+                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        config.macVol = newVol;
+                    }
+
+                context.globalState.update('mac_volume', newVol);
+                break;
+
+            case 'win32':
+                if(newVol > 100) {
+                    vscode.window.showInformationMessage("Volume has been increased to 100 which is the maximum volume")
+                    config.winVol = 100;
+                } 
+                else if(newVol < 10) {
+                    vscode.window.showInformationMessage("Volume has been decreased to 10 which is the minimum volume")
+                    config.winVol = 10
+                } else {
+                    if(config.winVol < newVol)
+                    vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                    else if(config.winVol > newVol)
+                    vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                    else
+                    vscode.window.showWarningMessage("Volume is always at " + newVol);
+                    config.winVol = newVol;
+                }
+
+            context.globalState.update('win_volume', newVol);
+            break;
+
+            case 'linux':
+                if(newVol > 10) {
+                    vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
+                    config.linuxVol = 10;
+                }
+                else if(newVol < 1) {
+                    vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
+                    config.linuxVol = 1
+                } else {
+                    if(config.linuxVol < newVol)
+                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        else if(config.linuxVol > newVol)
+                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        else
+                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        config.linuxVol = newVol;
+                }
+
+            context.globalState.update('linux_volume', newVol);
+            break;
+
+            default:
+                newVol = 0;
+                break;
+        }
+    });
+
+    
     // Add to a list of disposables which are disposed when this extension is deactivated.
     context.subscriptions.push(listener);
 }
