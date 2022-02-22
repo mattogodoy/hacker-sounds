@@ -52,7 +52,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'darwin':
                 config.macVol += 1;
 
-                if(config.macVol > 10){
+                if (config.macVol > 10) {
                     vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
                     config.macVol = 10;
                 }
@@ -64,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'win32':
                 config.winVol += 10;
 
-                if(config.winVol > 100){
+                if (config.winVol > 100) {
                     vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
                     config.winVol = 100;
                 }
@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'linux':
                 config.linuxVol += 1;
 
-                if(config.linuxVol > 10){
+                if (config.linuxVol > 10) {
                     vscode.window.showWarningMessage('Hacker Sounds already at maximum volume');
                     config.linuxVol = 10;
                 }
@@ -99,7 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'darwin':
                 config.macVol -= 1;
 
-                if(config.macVol < 1){
+                if (config.macVol < 1) {
                     vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
                     config.macVol = 1;
                 }
@@ -111,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'win32':
                 config.winVol -= 10;
 
-                if(config.winVol < 10){
+                if (config.winVol < 10) {
                     vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
                     config.winVol = 10;
                 }
@@ -123,7 +123,7 @@ export function activate(context: vscode.ExtensionContext) {
             case 'linux':
                 config.linuxVol -= 1;
 
-                if(config.linuxVol < 1){
+                if (config.linuxVol < 1) {
                     vscode.window.showWarningMessage('Hacker Sounds already at minimum volume');
                     config.linuxVol = 1;
                 }
@@ -145,67 +145,67 @@ export function activate(context: vscode.ExtensionContext) {
         let newVol = toInteger(input);
         switch (process.platform) {
             case 'darwin':
-                    if(newVol > 10) {
-                        vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
-                        config.macVol = 10;
-                    } 
-                    else if(newVol < 10) {
-                        vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
-                        config.macVol = 1
-                    } else {
-                        if(config.macVol < newVol)
+                if (newVol > 10) {
+                    vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
+                    config.macVol = 10;
+                }
+                else if (newVol < 10) {
+                    vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
+                    config.macVol = 1
+                } else {
+                    if (config.macVol < newVol)
                         vscode.window.showInformationMessage("Volume has been increased to " + newVol)
-                        else if(config.macVol > newVol)
+                    else if (config.macVol > newVol)
                         vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
-                        else
+                    else
                         vscode.window.showWarningMessage("Volume is always at " + newVol);
-                        config.macVol = newVol;
-                    }
+                    config.macVol = newVol;
+                }
 
                 context.globalState.update('mac_volume', newVol);
                 break;
 
             case 'win32':
-                if(newVol > 100) {
+                if (newVol > 100) {
                     vscode.window.showInformationMessage("Volume has been increased to 100 which is the maximum volume")
                     config.winVol = 100;
-                } 
-                else if(newVol < 10) {
+                }
+                else if (newVol < 10) {
                     vscode.window.showInformationMessage("Volume has been decreased to 10 which is the minimum volume")
                     config.winVol = 10
                 } else {
-                    if(config.winVol < newVol)
-                    vscode.window.showInformationMessage("Volume has been increased to " + newVol)
-                    else if(config.winVol > newVol)
-                    vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                    if (config.winVol < newVol)
+                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                    else if (config.winVol > newVol)
+                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
                     else
-                    vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        vscode.window.showWarningMessage("Volume is always at " + newVol);
                     config.winVol = newVol;
                 }
 
-            context.globalState.update('win_volume', newVol);
-            break;
+                context.globalState.update('win_volume', newVol);
+                break;
 
             case 'linux':
-                if(newVol > 10) {
+                if (newVol > 10) {
                     vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
                     config.linuxVol = 10;
                 }
-                else if(newVol < 1) {
+                else if (newVol < 1) {
                     vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
                     config.linuxVol = 1
                 } else {
-                    if(config.linuxVol < newVol)
+                    if (config.linuxVol < newVol)
                         vscode.window.showInformationMessage("Volume has been increased to " + newVol)
-                        else if(config.linuxVol > newVol)
+                    else if (config.linuxVol > newVol)
                         vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
-                        else
+                    else
                         vscode.window.showWarningMessage("Volume is always at " + newVol);
-                        config.linuxVol = newVol;
+                    config.linuxVol = newVol;
                 }
 
-            context.globalState.update('linux_volume', newVol);
-            break;
+                context.globalState.update('linux_volume', newVol);
+                break;
 
             default:
                 newVol = 0;
@@ -213,13 +213,13 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    
+
     // Add to a list of disposables which are disposed when this extension is deactivated.
     context.subscriptions.push(listener);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
 /**
  * Listen to editor changes and play a sound when a key is pressed.
@@ -251,7 +251,7 @@ export class EditorListener {
     }
 
     _keystrokeCallback = debounce((event: vscode.TextDocumentChangeEvent) => {
-        if (!isActive){ return; }
+        if (!isActive) { return; }
 
         let activeDocument = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
         if (event.document !== activeDocument || event.contentChanges.length === 0) { return; }
@@ -261,7 +261,7 @@ export class EditorListener {
 
         switch (pressedKey) {
             case '':
-                if(event.contentChanges[0].rangeLength === 1){
+                if (event.contentChanges[0].rangeLength === 1) {
                     // backspace or delete pressed
                     this.player.play(this._deleteAudio);
                 } else {
@@ -311,7 +311,7 @@ export class EditorListener {
     }, 100, { leading: true });
 
     _arrowKeysCallback = debounce((event: vscode.TextEditorSelectionChangeEvent) => {
-        if (!isActive){ return; }
+        if (!isActive) { return; }
 
         // current editor
         const editor = vscode.window.activeTextEditor;
