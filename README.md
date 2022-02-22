@@ -70,6 +70,10 @@ Any pull request is welcome.
 
 ### 1.4.0
 
+- Fixed dependency error
+
+### 1.4.0
+
 - Now you can type the volume level directly using the `Hacker Sounds: Set Volume` command.
     - Thanks, [Onur Yüksel](https://github.com/Onuryukselce)!
 
