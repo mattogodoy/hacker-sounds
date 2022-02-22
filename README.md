@@ -68,6 +68,11 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.4.0
+
+- Now you can type the volume level directly using the `Hacker Sounds: Set Volume` command.
+    - Thanks, [Onur Yüksel](https://github.com/Onuryukselce)!
+
 ### 1.3.0
 
 - Now you can adjust volume levels for Mac, Windows and Linux. This feature has not been tested in Linux yet.
