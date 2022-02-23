@@ -3,7 +3,7 @@
     "publisher": "mattogodoy",
     "displayName": "Hacker Sounds",
     "description": "This extension automatically turns you into a very skilled hacker by playing movie-like sounds while you write code.",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "engines": {
         "vscode": "^1.40.0"
     },
@@ -58,7 +58,8 @@
         "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
         "esbuild": "npm run -S esbuild-base -- --sourcemap",
         "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
-        "test-compile": "tsc -p ./"
+        "test-compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
         "@types/glob": "^7.1.1",

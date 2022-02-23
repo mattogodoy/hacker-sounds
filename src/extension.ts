@@ -143,22 +143,23 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('hacker_sounds.setVolume', async () => {
         let input = await vscode.window.showInputBox()
         let newVol = toInteger(input);
+
         switch (process.platform) {
             case 'darwin':
                 if (newVol > 10) {
-                    vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
+                    vscode.window.showInformationMessage("Volume increased to maximum")
                     config.macVol = 10;
-                }
-                else if (newVol < 10) {
-                    vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
+                } else if (newVol < 1) {
+                    vscode.window.showInformationMessage("Volume decreased to minimum")
                     config.macVol = 1
                 } else {
                     if (config.macVol < newVol)
-                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        vscode.window.showInformationMessage("Volume increased to " + newVol)
                     else if (config.macVol > newVol)
-                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        vscode.window.showInformationMessage("Volume decreased to " + newVol)
                     else
-                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        vscode.window.showWarningMessage("Volume already at " + newVol);
+
                     config.macVol = newVol;
                 }
 
@@ -167,19 +168,20 @@ export function activate(context: vscode.ExtensionContext) {
 
             case 'win32':
                 if (newVol > 100) {
-                    vscode.window.showInformationMessage("Volume has been increased to 100 which is the maximum volume")
+                    vscode.window.showInformationMessage("Volume increased to maximum")
                     config.winVol = 100;
                 }
                 else if (newVol < 10) {
-                    vscode.window.showInformationMessage("Volume has been decreased to 10 which is the minimum volume")
+                    vscode.window.showInformationMessage("Volume decreased to minimum")
                     config.winVol = 10
                 } else {
                     if (config.winVol < newVol)
-                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        vscode.window.showInformationMessage("Volume increased to " + newVol)
                     else if (config.winVol > newVol)
-                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        vscode.window.showInformationMessage("Volume decreased to " + newVol)
                     else
-                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        vscode.window.showWarningMessage("Volume already at " + newVol);
+
                     config.winVol = newVol;
                 }
 
@@ -188,19 +190,19 @@ export function activate(context: vscode.ExtensionContext) {
 
             case 'linux':
                 if (newVol > 10) {
-                    vscode.window.showInformationMessage("Volume has been increased to 10 which is the maximum volume")
+                    vscode.window.showInformationMessage("Volume increased to maximum")
                     config.linuxVol = 10;
-                }
-                else if (newVol < 1) {
-                    vscode.window.showInformationMessage("Volume has been decreased to 1 which is the minimum volume")
+                } else if (newVol < 1) {
+                    vscode.window.showInformationMessage("Volume decreased to minimum")
                     config.linuxVol = 1
                 } else {
                     if (config.linuxVol < newVol)
-                        vscode.window.showInformationMessage("Volume has been increased to " + newVol)
+                        vscode.window.showInformationMessage("Volume increased to " + newVol)
                     else if (config.linuxVol > newVol)
-                        vscode.window.showInformationMessage("Volume has been decreased to " + newVol)
+                        vscode.window.showInformationMessage("Volume decreased to " + newVol)
                     else
-                        vscode.window.showWarningMessage("Volume is always at " + newVol);
+                        vscode.window.showWarningMessage("Volume already at " + newVol);
+
                     config.linuxVol = newVol;
                 }
 

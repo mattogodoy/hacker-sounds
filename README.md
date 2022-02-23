@@ -70,6 +70,11 @@ Any pull request is welcome.
 
 ## Release Notes
 
+### 1.4.3
+
+- Fixed bug in which manually setting the volume went always to minimum or maximum.
+- Redacted some of the messages.
+
 ### 1.4.2
 
 - Minor fixes
