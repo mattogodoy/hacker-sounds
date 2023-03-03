@@ -70,7 +70,7 @@
         "esbuild": "^0.14.23",
         "glob": "^7.1.5",
         "lodash": "^4.17.21",
-        "mocha": "^6.2.2",
+        "mocha": "^6.2.3",
         "tslint": "^5.20.0",
         "typescript": "^3.6.4",
         "vscode-test": "^1.2.2"
